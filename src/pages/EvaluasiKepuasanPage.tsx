@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Star, Plus, Search, ImageIcon, X, Upload } from 'lucide-react';
+import { Star, Plus, Search, X, Upload } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Feedback } from '@/lib/types';
 import { PeriodKey, FEEDBACK_TYPES, getPeriodRange, formatDate, todayISO, generateId } from '@/lib/constants';

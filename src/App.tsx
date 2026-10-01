@@ -103,7 +103,7 @@ function App() {
   useEffect(() => {
     const channel = supabase
       .channel('dampingcare-live-sync')
-      .on('postgres_changes', { event: '*', schema: 'public' }, () => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: '*' }, () => {
         setRefreshVersion(version => version + 1);
       })
       .subscribe();

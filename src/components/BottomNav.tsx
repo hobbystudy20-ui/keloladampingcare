@@ -1,4 +1,3 @@
-import { LucideIcon } from 'lucide-react';
 import { PageKey, NavItem } from './Sidebar';
 
 interface BottomNavProps {

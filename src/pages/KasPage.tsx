@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Plus, PiggyBank, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
+import { Plus, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { KasBulanan } from '@/lib/types';
 import { PAYMENT_METHODS, formatCurrency, formatDate, todayISO, generateId } from '@/lib/constants';

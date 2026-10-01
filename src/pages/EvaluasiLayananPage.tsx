@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Booking, Revenue, OperationalExpense } from '@/lib/types';
-import { PeriodKey, BOOKING_STATUS, getPeriodRange, formatCurrency, formatDate } from '@/lib/constants';
+import { PeriodKey, BOOKING_STATUS, getPeriodRange, formatCurrency } from '@/lib/constants';
 import PageHeader from '@/components/PageHeader';
 import PeriodSelector from '@/components/PeriodSelector';
 import StatCard from '@/components/StatCard';

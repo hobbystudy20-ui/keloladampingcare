@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Plus, Search, FileText, Download, Eye } from 'lucide-react';
+import { Plus, Search, FileText, Download } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { DocumentItem } from '@/lib/types';
 import { DOCUMENT_CATEGORIES, formatDate, todayISO } from '@/lib/constants';

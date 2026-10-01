@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { SosmedMetric } from '@/lib/types';
-import { PeriodKey, SOSMED_PLATFORMS, getPeriodRange, formatCurrency } from '@/lib/constants';
+import { PeriodKey, SOSMED_PLATFORMS, getPeriodRange } from '@/lib/constants';
 import PageHeader from '@/components/PageHeader';
 import PeriodSelector from '@/components/PeriodSelector';
 import StatCard from '@/components/StatCard';

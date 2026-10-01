@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { CalendarPlus, Search, MessageCircle, MapPin, Clock, Car, User, Eye } from 'lucide-react';
+import { CalendarPlus, Search, MessageCircle, MapPin, Clock, Eye } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Booking, TeamMember, User as DampingcareUser } from '@/lib/types';
 import { CITIES, SERVICE_TYPES, BOOKING_STATUS, PAYMENT_STATUS, PAYMENT_METHODS, getDayName, formatDate, formatCurrency, generateBookingId, todayISO } from '@/lib/constants';
@@ -97,7 +97,6 @@ export default function BookingPage() {
   }, [filtered]);
 
   const teamName = (id: string | null) => team.find(t => t.id === id)?.name || '-';
-  const userName = (id: string | null) => users.find(u => u.id === id)?.name || '';
 
   function calcTotal(): number {
     const sf = parseFloat(form.service_fee) || 0;

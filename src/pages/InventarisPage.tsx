@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { Plus, Search, Package } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Inventory } from '@/lib/types';
-import { INVENTORY_CONDITIONS, formatCurrency, formatDate, generateId, todayISO } from '@/lib/constants';
+import { INVENTORY_CONDITIONS, formatCurrency, generateId, todayISO } from '@/lib/constants';
 import PageHeader from '@/components/PageHeader';
 import Input from '@/components/Input';
 import Select from '@/components/Select';

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Plus, Search, TrendingUp } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { Revenue, Booking } from '@/lib/types';
+import { Revenue } from '@/lib/types';
 import { PeriodKey, PAYMENT_STATUS, PAYMENT_METHODS, getPeriodRange, formatCurrency, formatDate, generateId, todayISO } from '@/lib/constants';
 import PageHeader from '@/components/PageHeader';
 import PeriodSelector from '@/components/PeriodSelector';
