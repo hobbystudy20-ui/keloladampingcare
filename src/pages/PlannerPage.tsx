@@ -145,6 +145,8 @@ export default function PlannerPage() {
 
   async function handleDuplicate(item: ContentPlannerItem) {
     const { id, created_at, ...rest } = item;
+    void id;
+    void created_at;
     await supabase.from('content_planner').insert({ ...rest, theme: `${item.theme} (Copy)` });
     fetchItems();
   }

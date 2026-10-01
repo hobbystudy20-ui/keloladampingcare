@@ -139,6 +139,8 @@ export default function SchedulePage() {
 
   async function handleDuplicate(item: ContentScheduleItem) {
     const { id, created_at, ...rest } = item;
+    void id;
+    void created_at;
     await supabase.from('content_schedule').insert({ ...rest, content: `${item.content} (Copy)` });
     fetchItems();
   }
