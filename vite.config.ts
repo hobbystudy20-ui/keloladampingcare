@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['favicon.svg', 'cropped_circle_image_(1).webp'],
       manifest: {
         name: 'Dampingcare Sosmed Manager',
         short_name: 'Dampingcare',
@@ -35,10 +35,16 @@ export default defineConfig({
             type: 'image/png',
             purpose: 'any maskable',
           },
+          {
+            src: 'cropped_circle_image_(1).webp',
+            sizes: '1024x1024',
+            type: 'image/webp',
+            purpose: 'any',
+          },
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,ico}'],
         navigateFallback: 'index.html',
       },
     }),

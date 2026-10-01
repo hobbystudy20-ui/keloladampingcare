@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   LayoutDashboard, Users, CalendarPlus, UserCircle, Package, MapPin,
   CalendarRange, Clock, FileText, BarChart3,
@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import Sidebar, { PageKey, NavGroup } from '@/components/Sidebar';
 import BottomNav from '@/components/BottomNav';
+import { supabase } from '@/lib/supabase';
 import DashboardPage from '@/pages/DashboardPage';
 import TimPage from '@/pages/TimPage';
 import BookingPage from '@/pages/BookingPage';
@@ -97,6 +98,18 @@ const MOBILE_ITEMS = NAV_GROUPS.flatMap(g => g.items).slice(0, 5);
 
 function App() {
   const [active, setActive] = useState<PageKey>('dashboard');
+  const [refreshVersion, setRefreshVersion] = useState(0);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('dampingcare-live-sync')
+      .on('postgres_changes', { event: '*', schema: 'public' }, () => {
+        setRefreshVersion(version => version + 1);
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, []);
 
   const pageMap: Record<PageKey, React.ReactNode> = {
     'dashboard': <DashboardPage />,
@@ -132,7 +145,7 @@ function App() {
           <h1 className="text-base font-bold text-gray-900 md:text-lg">Dampingcare Management System</h1>
         </header>
         <main className="px-4 py-5 pb-24 md:px-6 md:pb-6">
-          {pageMap[active]}
+          <div key={`${active}-${refreshVersion}`}>{pageMap[active]}</div>
         </main>
       </div>
       <BottomNav items={MOBILE_ITEMS} active={active} onNavigate={setActive} />
