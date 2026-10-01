@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import {
   CalendarDays, CalendarRange, CalendarClock, PlayCircle, Clock,
-  Users, TrendingUp, TrendingDown, Wallet, AlertCircle, Activity, PiggyBank
+  Users, TrendingUp, TrendingDown, Wallet, Activity, PiggyBank, Trash2
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Booking, Revenue, OperationalExpense, ActivityLog, KasBulanan } from '@/lib/types';
@@ -74,19 +74,6 @@ export default function DashboardPage() {
     };
   }, [bookings, revenue, expenses, kas]);
 
-  const alerts = useMemo(() => {
-    const items: { text: string; icon: typeof AlertCircle }[] = [];
-    const pending = bookings.filter(b => b.status === 'Menunggu Konfirmasi');
-    if (pending.length > 0) items.push({ text: `${pending.length} booking belum dikonfirmasi`, icon: AlertCircle });
-    const noTeam = bookings.filter(b => b.status === 'Dikonfirmasi' && !b.team_member_id);
-    if (noTeam.length > 0) items.push({ text: `${noTeam.length} booking belum memiliki pendamping`, icon: AlertCircle });
-    const unpaid = bookings.filter(b => b.payment_status === 'Belum Bayar' && b.status !== 'Dibatalkan');
-    if (unpaid.length > 0) items.push({ text: `${unpaid.length} pembayaran belum lunas`, icon: AlertCircle });
-    const upcoming = bookings.filter(b => b.date === todayISO() && b.status === 'Ditugaskan');
-    if (upcoming.length > 0) items.push({ text: `${upcoming.length} jadwal akan dimulai hari ini`, icon: AlertCircle });
-    return items;
-  }, [bookings]);
-
   const chartData = useMemo(() => {
     const days: { label: string; value: number }[] = [];
     for (let i = 6; i >= 0; i--) {
@@ -98,6 +85,11 @@ export default function DashboardPage() {
     }
     return days;
   }, [bookings]);
+
+  async function handleDeleteActivity(id: string) {
+    await supabase.from('activity_log').delete().eq('id', id);
+    fetchAll();
+  }
 
   if (loading) return <LoadingSpinner />;
 
@@ -121,33 +113,9 @@ export default function DashboardPage() {
         <StatCard label="Saldo Kas" value={formatCurrency(stats.saldoKas)} icon={PiggyBank} color={stats.saldoKas >= 0 ? 'teal' : 'red'} />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h3 className="text-sm font-bold text-gray-800 mb-4">Booking 7 Hari Terakhir</h3>
-          <BarChart data={chartData} />
-        </div>
-
-        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-          <h3 className="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <AlertCircle size={16} className="text-amber-500" />
-            Perlu Ditindaklanjuti
-          </h3>
-          {alerts.length === 0 ? (
-            <p className="text-sm text-gray-400 py-8 text-center">Tidak ada peringatan. Semua aman!</p>
-          ) : (
-            <div className="space-y-2">
-              {alerts.map((a, i) => {
-                const Icon = a.icon;
-                return (
-                  <div key={i} className="flex items-center gap-2.5 rounded-lg bg-amber-50 px-3 py-2.5">
-                    <Icon size={16} className="flex-shrink-0 text-amber-500" />
-                    <span className="text-sm text-gray-700">{a.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+      <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+        <h3 className="text-sm font-bold text-gray-800 mb-4">Booking 7 Hari Terakhir</h3>
+        <BarChart data={chartData} />
       </div>
 
       <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
@@ -171,6 +139,13 @@ export default function DashboardPage() {
                 <span className="flex-shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500">
                   {a.module}
                 </span>
+                <button
+                  onClick={() => handleDeleteActivity(a.id)}
+                  className="flex-shrink-0 rounded-md p-1.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                  title="Hapus aktivitas"
+                >
+                  <Trash2 size={14} />
+                </button>
               </div>
             ))}
           </div>
